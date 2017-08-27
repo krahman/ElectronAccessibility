@@ -1,5 +1,3 @@
-const {robot} = require("robotjs");
-
 const electron = require('electron')
 const {app, BrowserWindow, ipcMain} = electron
 
@@ -61,19 +59,19 @@ function createWindow(){
 
 function checkLoad(){
 
-	let color = robot.getPixelColor(  searchFieldPosition.x, searchFieldPosition.y );
-	console.log( color );
+	// let color = robot.getPixelColor(  searchFieldPosition.x, searchFieldPosition.y );
+	// console.log( color );
 
-	if( color != "ffffff"){
-		return "loading"
-	}else if( color == "red" ){
-		return "low-battery"
-	}
+	// if( color != "ffffff"){
+	// 	return "loading"
+	// }else if( color == "red" ){
+	// 	return "low-battery"
+	// }
 }
 
 searchContact = function ( msg, onComplete ){
-	robot.moveMouse( searchFieldPosition.x, this.searchFieldPosition.y )
-	robot.mouseClick()
+	// robot.moveMouse( searchFieldPosition.x, this.searchFieldPosition.y )
+	// robot.mouseClick()
 }
 
 module.exports = {

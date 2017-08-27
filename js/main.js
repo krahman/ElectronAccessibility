@@ -4,12 +4,11 @@ const {app, BrowserWindow, ipcMain} = electron
 const path = require('path')
 const url = require('url')
 
-var robot = require("robotjs");
 var whatsapp = require("./whatsapp.js")
 
 let win
 let screenSize;
-;
+
 
 
 function createWindow () {
