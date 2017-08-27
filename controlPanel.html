@@ -11,12 +11,12 @@
 <div id="control-pannel">
 
 	<div id="shortcuts">
-		<img id="whatsapp_shortcut" src="images/whatsapp_icon.png" alt="whasapp" style="width:210px;height:140px;" class="letter">
-		<img id="textEditor_shortcut" src="images/whatsapp_icon.png" alt="whasapp" style="width:220px;height:140px;" class="letter">
+		<img class="hoverable" id="whatsapp_shortcut" src="images/whatsapp_icon.png" alt="whasapp" style="width:210px;height:140px;" class="letter">
+		<img class="hoverable" id="textEditor_shortcut" src="images/text_icon.png" alt="whasapp" style="width:140px;height:140px;margin-top:35px" class="letter">
     </div>
     
-    <div id="whats-cp" style="hidden">
-        <button id="scrollBarToggle" type="button">Topo/Menssagem</button> 
+    <div style="hidden">
+        <button id="scrollBt" class="button hoverable" id="scrollBarToggle" type="button">Topo/Menssagem</button> 
     </div>
 	
 </div>
@@ -44,7 +44,7 @@ $(function(){
     });
 
 
-    $("#scrollBarToggle").click(()=>{
+    $("#scrollBt").click(()=>{
         ipcRenderer.send('toggleUpDownScrollBar', "whatsapp" );
     })
 

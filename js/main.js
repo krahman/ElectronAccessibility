@@ -21,12 +21,13 @@ function createWindow () {
   win.loadURL(url.format({
   pathname: path.join(__dirname, '../controlPanel.html'),
   protocol: 'file:',
+  acceptFirstMouse: true,  
   slashes: true
   }))
 
 	var keyWidth = screenSize.width * 0.4;
   win.setPosition( screenSize.width - controlPanelwidith, 0 );
-
+  win.setAlwaysOnTop(true);
   win.on('closed', () => {
     win = null
   })
