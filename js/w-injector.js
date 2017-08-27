@@ -24,23 +24,31 @@ ipcRenderer.on("change-font-size", function() {
 		text_elements[i].style.fontSize = fontSize
 	}
 
-	// force the messges to stay down
+	// force the messages to stay down
 	var a = document.getElementsByClassName("pane-chat-msgs pane-chat-body lastTabIndex")[0]
-	a.scrollTop = 100000
+	if( a != null )
+		a.scrollTop = 100000
+
+	window.scrollTo(0,document.body.scrollHeight);
 
 	// Message field ----
 	var input_container = document.getElementsByClassName("input-container")[0]
 	var input = document.getElementsByClassName("input")[0]
+	if(input != null){
+		
+		input_container.style.height = "100px"
+		input.style.height = "100px"
+		input.style.fontSize = "20px"
+	}
 
-	input_container.style.height = "100px"
-	input.style.height = "100px"
-	input.style.fontSize = "20px"
 
-	
+			
 	var send_button = document.getElementsByClassName("compose-btn-send")[0]
-	send_button.style.width = "100px"
-	send_button.style.height = "100px"
-	send_button.style.backgroundColor = "lightblue"
+	if(send_button != null){ 
+		send_button.style.width = "100px"
+		send_button.style.height = "100px"
+		send_button.style.backgroundColor = "lightblue"
+	}
 })
 
 

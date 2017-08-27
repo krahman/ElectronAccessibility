@@ -13,7 +13,11 @@
 	<div id="shortcuts">
 		<img id="whatsapp_shortcut" src="images/whatsapp_icon.png" alt="whasapp" style="width:210px;height:140px;" class="letter">
 		<img id="textEditor_shortcut" src="images/whatsapp_icon.png" alt="whasapp" style="width:220px;height:140px;" class="letter">
-	</div>
+    </div>
+    
+    <div id="whats-cp" style="hidden">
+        <button id="scrollBarToggle" type="button">Topo/Menssagem</button> 
+    </div>
 	
 </div>
 
@@ -22,18 +26,27 @@
 <script> 
 
 const {ipcRenderer} = require('electron')
+const wats = require('./js/whatsapp.js')
 
 // var {globalContext} = require('./globalcontext.js')
 
 
 $(function(){
-    
-    // 
+
+    $("#scrollBarToggle").hide()
+
+    //
     $('#whatsapp_shortcut').click( function(){
         ipcRenderer.sendSync('set-global-context', "whatsapp" );
         console.log("opening whatsapp");
+        $("#scrollBarToggle").show()
+
     });
 
+
+    $("#scrollBarToggle").click(()=>{
+        ipcRenderer.send('toggleUpDownScrollBar', "whatsapp" );
+    })
 
 });
 

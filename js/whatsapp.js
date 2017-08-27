@@ -25,13 +25,11 @@ function enableWindow(){
 			window.restore()
 		}else{
 			window.minimize()
-		} 
+		}
 
 		return;
 	}else{
-
 		createWindow();
-
 	}
 
 }
@@ -39,22 +37,36 @@ function enableWindow(){
 function createWindow(){
 
 	// Create the browser window.
-	var whatsWidth = screenSize.width * 0.6;
-	var whatsHeight = screenSize.height;
+	var whatsWidth =  950
+	var whatsHeight = screenSize.height * 0.5
 
-	window = new BrowserWindow({width: whatsWidth, height: whatsHeight, titleBarStyle: 'hidden'})
+	window = new BrowserWindow({width: whatsWidth, height: whatsHeight, frame: false})
 	window.setPosition(0, 0);
 
 	// window.loadURL("https://web.whatsapp.com/");
 
 	window.loadURL(url.format({
-	pathname: path.join(__dirname, '../whatsapp.html'),
-	protocol: 'file:',
-	slashes: true
+		pathname: path.join(__dirname, '../whatsapp.html'),
+		protocol: 'file:',
+		slashes: true,
+		acceptFirstMouse: true,
+		titleBarStyle : "hidden"
 	}))
 
-	window.webContents.openDevTools()
+	window.openDevTools()
+
+	window.webContents.on('did-finish-load', () => {
+		toggleUpDownScrollBar()
+	});
 }
+
+function toggleUpDownScrollBar(){
+	if( window != null  )
+		window.webContents.send('setScroll', "");
+	else
+		console.log("window is null")
+}
+
 
 
 function checkLoad(){
@@ -78,5 +90,6 @@ module.exports = {
 	init : init,
 	searchFieldPosition : searchFieldPosition,
 	searchContact : searchContact,
-	enableWindow : enableWindow
+	enableWindow : enableWindow,
+	toggleUpDownScrollBar : toggleUpDownScrollBar
 }

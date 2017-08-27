@@ -12,14 +12,32 @@
     <!-- var list_search = document.getElementsByClassName("list-search")[0] -->
     <!-- var input_placeholder = document.getElementsByClassName("input-placeholder")[0] -->
     <script>
-
+        const {ipcRenderer} = require('electron')
         let webview;
+
+        let scrollPosition = 0;
 
         function setSize(){
 
             webview.send("change-font-size");
+
+            window.scrollTo(0, scrollPosition);
             setTimeout( setSize, 1000 )
         }
+
+
+        ipcRenderer.on("setScroll", function(){
+          console.log("çlaksdaçkds")
+            if( scrollPosition == 0 ){
+             scrollPosition = document.body.scrollHeight
+             window.scrollTo(0, scrollPosition);
+            }
+            else
+            {
+              scrollPosition = 0
+              window.scrollTo(0, scrollPosition);
+            }
+        })
 
         onload = () => {
           webview = document.querySelector('webview')

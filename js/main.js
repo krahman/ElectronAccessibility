@@ -13,7 +13,10 @@ let screenSize;
 
 function createWindow () {
   // Create the browser window.
-  win = new BrowserWindow({width: 1152, height: 648,titleBarStyle: 'hidden'})
+
+  var controlPanelwidith = 600;
+
+  win = new BrowserWindow({width: controlPanelwidith, height:  screenSize.height * 0.5 ,titleBarStyle: 'hidden',  frame: false})
   // win.maximize();
   win.loadURL(url.format({
   pathname: path.join(__dirname, '../controlPanel.html'),
@@ -22,15 +25,13 @@ function createWindow () {
   }))
 
 	var keyWidth = screenSize.width * 0.4;
-  var keyHeight = screenSize.height;
-  
-  var xPos = screenSize.width * 0.6
-
-  win.setPosition( xPos, 0 );
+  win.setPosition( screenSize.width - controlPanelwidith, 0 );
 
   win.on('closed', () => {
     win = null
   })
+
+  win.openDevTools()
 }
 
 app.on('ready', function(){
@@ -74,4 +75,10 @@ ipcMain.on('set-global-context', (event, arg) => {
   }
   
   event.returnValue = 'Ok'
+})
+
+
+
+ipcMain.on('toggleUpDownScrollBar', (event, arg) => {
+    whatsapp.toggleUpDownScrollBar();
 })
