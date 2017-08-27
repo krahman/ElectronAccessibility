@@ -38,9 +38,10 @@ $(function(){
     //
     $('#whatsapp_shortcut').click( function(){
         ipcRenderer.sendSync('set-global-context', "whatsapp" );
-        console.log("opening whatsapp");
-        $("#scrollBarToggle").show()
+    });
 
+    $('#textEditor_shortcut').click( function(){
+        ipcRenderer.sendSync('set-global-context', "texteditor" );
     });
 
 
