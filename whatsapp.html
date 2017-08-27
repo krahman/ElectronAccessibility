@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+     
+    <title>Whatsapp Iframe</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body>
+    <webview id="foo" src="https://web.whatsapp.com/" style="width:100%; height:600px" preload="./js/w-injector.js"></webview>
+
+    <!-- var list_search = document.getElementsByClassName("list-search")[0] -->
+    <!-- var input_placeholder = document.getElementsByClassName("input-placeholder")[0] -->
+    <script>
+
+        let webview;
+
+        function setSize(){
+
+            webview.send("change-font-size");
+            setTimeout( setSize, 1000 )
+        }
+
+        onload = () => {
+          webview = document.querySelector('webview')
+
+          let loadStopCount = 0;
+          const loadstart = () => {
+            console.log("load start")
+          }
+      
+          const loadstop = () => {
+            loadStopCount += 1;
+            console.log( loadStopCount );
+          
+            if( loadStopCount == 2 ){
+              webview.openDevTools()
+              webview.send( "change-css" )
+              setSize()
+            }
+          }
+      
+          webview.addEventListener('did-start-loading', loadstart)
+          webview.addEventListener('did-stop-loading', loadstop)
+
+        }
+      </script>
+
+</body>
+</html>
