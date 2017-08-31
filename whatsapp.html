@@ -25,9 +25,22 @@
             setTimeout( setSize, 1000 )
         }
 
+        ipcRenderer.on("setScrollUp", function(){
 
-        ipcRenderer.on("setScroll", function(){
-          console.log("çlaksdaçkds")
+          scrollPosition = 0
+          window.scrollTo(0, scrollPosition)
+
+        })
+
+        ipcRenderer.on("setScrollDown", function(){
+
+          scrollPosition = document.body.scrollHeight
+          window.scrollTo(0, scrollPosition);
+
+        })
+
+        ipcRenderer.on("toggleScroll", function(){
+
             if( scrollPosition == 0 ){
              scrollPosition = document.body.scrollHeight
              window.scrollTo(0, scrollPosition);
@@ -41,23 +54,24 @@
 
         onload = () => {
           webview = document.querySelector('webview')
-
+          window.scrollTo(0, 0);
           let loadStopCount = 0;
           const loadstart = () => {
             console.log("load start")
           }
-      
+
           const loadstop = () => {
+            
+            // wait for the whatsapp to load
             loadStopCount += 1;
             console.log( loadStopCount );
-          
+
             if( loadStopCount == 2 ){
-              webview.openDevTools()
+              //webview.openDevTools()
               webview.send( "change-css" )
               setSize()
             }
           }
-      
           webview.addEventListener('did-start-loading', loadstart)
           webview.addEventListener('did-stop-loading', loadstop)
 

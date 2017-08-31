@@ -11,7 +11,7 @@
         
         #textInput{
             width:100%;
-            height:400px;
+            height:300px;
             font-size: 30px;
         }
 
@@ -25,17 +25,23 @@
 
 </head>
 <body>
-        <input id="textInput" type="text"></input>
+        <input id="textInput" type="text" autofocus></input>
         <div id="smallText">small text</div>
 
         <script>
             var textField = document.getElementById("textInput")
             textField.addEventListener("keyup", function(){
-
                 var smallText = document.getElementById( "smallText" )
                 smallText.innerText = textField.value
-
             })
+
+            textField.focus()
+
+        textField.addEventListener("blur", function(){
+
+            console.log("blured...");
+            textField.focus()
+        })
 
         </script>
 </body>

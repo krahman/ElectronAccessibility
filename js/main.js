@@ -34,7 +34,7 @@ function createWindow () {
     win = null
   })
 
-  win.openDevTools()
+ // win.openDevTools()
 }
 
 app.on('ready', function(){
@@ -45,6 +45,8 @@ app.on('ready', function(){
   console.log( whatsapp )
   whatsapp.init()
   texteditor.init()
+
+  texteditor.enableWindow();
 
 })
 
@@ -72,9 +74,16 @@ ipcMain.on('set-global-context', (event, arg) => {
   if( arg == "whatsapp" ){
     if(whatsapp){
 
-      if( whatsapp.window == null )
+      if(texteditor != null){
+        texteditor.doForceFocus = false
+        texteditor.window.setAlwaysOnTop(false);
+      }
+
+      if( whatsapp.window == null ){
         whatsapp.enableWindow()
-      else{
+
+      }else{
+        texteditor.doForceFocus = false
         texteditor.window.setAlwaysOnTop(false);        
         whatsapp.window.setAlwaysOnTop(true);
       }
@@ -88,7 +97,8 @@ ipcMain.on('set-global-context', (event, arg) => {
       else{
         if(whatsapp.window)
           whatsapp.window.setAlwaysOnTop(false);
-          texteditor.window.setAlwaysOnTop(true);        
+          texteditor.window.setAlwaysOnTop(true); 
+          texteditor.doForceFocus = true       
       }
     }
   }

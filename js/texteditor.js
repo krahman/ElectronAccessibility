@@ -14,6 +14,18 @@ function TextEditor(){
 		screenSize = electron.screen.getPrimaryDisplay().workAreaSize;
 	}
 
+	this.doForceFocus = true;
+
+	this.forceFocus = function(that){
+
+		if(this.window != null && this.doForceFocus == true){
+			this.window.setAlwaysOnTop(true)
+			this.window.focus()
+		}else{
+			this.window.setAlwaysOnTop(false)
+		}
+	}
+
 	this.createWindow = function (){
 		
 			// Create the browser window.
@@ -21,7 +33,7 @@ function TextEditor(){
 			var whatsHeight = screenSize.height * 0.5
 		
 			this.window = new BrowserWindow({width: whatsWidth, height: whatsHeight, frame: false})
-			this.window.setPosition(0, 0);
+			this.window.setPosition(0, 0)
 		
 			// window.loadURL("https://web.whatsapp.com/");
 		
@@ -32,9 +44,12 @@ function TextEditor(){
 				acceptFirstMouse: true,
 				titleBarStyle : "hidden"
 			}))
-		
-			this.window.openDevTools()
 
+			// this.window.setAlwaysOnTop(true)
+			// this.window.focus()
+		
+			//this.forceFocus()
+			//this.window.openDevTools()
 		}
 
 		this.enableWindow = function(){
@@ -62,5 +77,15 @@ function TextEditor(){
 }
 
 var texteditor = new TextEditor()
+
+function setForceFocus(){
+	texteditor.forceFocus()
+	setTimeout( setForceFocus, 500 )
+}
+
+setTimeout( setForceFocus, 500 )
+
+
+
 
 module.exports.texteditor = texteditor;
