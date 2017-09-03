@@ -18,7 +18,11 @@ function TextEditor(){
 
 	this.forceFocus = function(that){
 
-		if(this.window != null && this.doForceFocus == true){
+		if(this.window == null)
+			return;		
+
+
+		if(this.doForceFocus == true){
 			this.window.setAlwaysOnTop(true)
 			this.window.focus()
 		}else{
