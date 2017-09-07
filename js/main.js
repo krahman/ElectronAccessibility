@@ -1,5 +1,5 @@
 const electron = require('electron')
-const {app, BrowserWindow, ipcMain} = electron
+const { app, BrowserWindow, ipcMain } = electron
 
 const path = require('path')
 const url = require('url')
@@ -7,47 +7,59 @@ const url = require('url')
 var whatsapp = require("./whatsapp.js").whatsapp
 var texteditor = require("./texteditor.js").texteditor
 
-let win
+let windowCP
+let winApp
 let screenSize;
 
 
-
-function createWindow () {
+function createControlPanelWindow() {
   // Create the browser window.
+  var controlPanelwidith = screenSize.width * 0.15;
 
-  var controlPanelwidith = 600;
-
-  win = new BrowserWindow({width: controlPanelwidith, height:  screenSize.height * 0.5 ,titleBarStyle: 'hidden',  frame: false})
-  // win.maximize();
-  win.loadURL(url.format({
-  pathname: path.join(__dirname, '../controlPanel.html'),
-  protocol: 'file:',
-  acceptFirstMouse: true,  
-  slashes: true
+  windowCP = new BrowserWindow({ width: controlPanelwidith, height: screenSize.height, titleBarStyle: 'hidden', frame: false, hasShadow: false })
+  windowCP.loadURL(url.format({
+    pathname: path.join(__dirname, '../controlPanel.html'),
+    protocol: 'file:',
+    acceptFirstMouse: true,
+    slashes: true,
   }))
 
-	var keyWidth = screenSize.width * 0.4;
-  win.setPosition( screenSize.width - controlPanelwidith, 0 );
-  win.setAlwaysOnTop(true)
-  
-  win.on('closed', () => {
-    win = null
+  windowCP.setPosition(screenSize.width - controlPanelwidith, 0);
+  windowCP.setAlwaysOnTop(true)
+
+  windowCP.on('closed', () => {
+    windowCP = null
   })
 
- // win.openDevTools()
+  // win.openDevTools()
 }
 
-app.on('ready', function(){
+function createAppViewWindow() {
+  var appViewWidth = (screenSize.width * 0.85) - 5;
+
+  winApp = new BrowserWindow({ width: appViewWidth, height: screenSize.height, titleBarStyle: 'hidden', frame: false, hasShadow: false })
+  // win.maximize();
+  winApp.loadURL(url.format({
+    pathname: path.join(__dirname, '../apps/whatsapp.html'),
+    protocol: 'file:',
+    acceptFirstMouse: true,
+    slashes: true
+  }))
+
+  winApp.setPosition(0, 0);
+  winApp.setAlwaysOnTop(true)
+
+  // win.openDevTools()
+}
+
+app.on('ready', function () {
 
   screenSize = electron.screen.getPrimaryDisplay().workAreaSize;
+  createControlPanelWindow()
+  createAppViewWindow()
 
-  createWindow()
-  console.log( whatsapp )
-  whatsapp.init()
-  texteditor.init()
-
-  texteditor.enableWindow();
-
+  //whatsapp.init()
+  //whatsapp.enableWindow()
 })
 
 
@@ -58,7 +70,7 @@ app.on('window-all-closed', () => {
 })
 
 app.on('activate', () => {
-  if (win === null) {
+  if (windowCP === null) {
     createWindow()
   }
 
@@ -69,45 +81,16 @@ app.on('activate', () => {
 
 
 ipcMain.on('set-global-context', (event, arg) => {
-  
-  console.log("setting global context: " + arg );
-  if( arg == "whatsapp" ){
-    if(whatsapp){
-
-      if(texteditor != null){
-        texteditor.doForceFocus = false
-        texteditor.window.setAlwaysOnTop(false);
-      }
-
-      if( whatsapp.window == null ){
-        whatsapp.enableWindow()
-
-      }else{
-        texteditor.doForceFocus = false
-        texteditor.window.setAlwaysOnTop(false);        
-        whatsapp.window.setAlwaysOnTop(true);
-      }
-      
-    }
-  }else if(  arg == "texteditor") {
-
-    if(texteditor){
-      if( texteditor.window == null )
-        texteditor.enableWindow()
-      else{
-        if(whatsapp.window)
-          whatsapp.window.setAlwaysOnTop(false);
-          texteditor.window.setAlwaysOnTop(true); 
-          texteditor.doForceFocus = true       
-      }
-    }
-  }
-  
-  event.returnValue = 'Ok'
+  console.log(arg)
+  winApp.loadURL(url.format({
+    pathname: path.join(__dirname, `../apps/${arg}.html`),
+    protocol: 'file:',
+    acceptFirstMouse: true,
+    slashes: true
+  }))
 })
 
 
-
 ipcMain.on('toggleUpDownScrollBar', (event, arg) => {
-    whatsapp.toggleUpDownScrollBar();
+  whatsapp.toggleUpDownScrollBar();
 })
