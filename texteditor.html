@@ -10,9 +10,12 @@
         }
         
         #textInput{
+            margin-top: 40px;
             width:100%;
             height:300px;
             font-size: 30px;
+            font-family:sans-serif;
+
         }
 
         #smallText{
@@ -25,17 +28,32 @@
 
 </head>
 <body>
-        <input id="textInput" type="text" autofocus></input>
+        <textarea id="textInput" type="text" onfocus="this.value = this.value;" autofocus></textarea>
         <div id="smallText">small text</div>
 
         <script>
+
+            function moveCusorToEnd(){
+                var textField = document.getElementById("textInput")
+
+                textField.setSelectionRange(textField.value.length,textField.value.length);
+
+                setTimeout(moveCusorToEnd, 3);
+
+            }
+
             var textField = document.getElementById("textInput")
             textField.addEventListener("keyup", function(){
                 var smallText = document.getElementById( "smallText" )
                 smallText.innerText = textField.value
+
             })
 
             textField.focus()
+
+            setTimeout(()=>{
+                moveCusorToEnd()
+            }, 3)
 
         textField.addEventListener("blur", function(){
 
