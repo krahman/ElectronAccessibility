@@ -34,7 +34,11 @@ ipcRenderer.on("change-font-size", function() {
 
 	// Message field ----
 	var input_container = document.getElementsByClassName("input-container")[0]
-	var input = document.getElementsByClassName("input")[0]
+	var input = document.getElementsByClassName("block-compose")[0]
+
+	//console.log(input)
+	//console.log(input_container)
+
 	if(input != null){
 
 		input_container.style.height = "100px"

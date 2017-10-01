@@ -37,6 +37,8 @@ function Whatsapp(){
 	
 		this.window = new BrowserWindow({width: whatsWidth, height: whatsHeight, frame: false})
 		this.window.setPosition(0, 0);
+
+		//this.window.toggleDevTools()
 	
 		// window.loadURL("https://web.whatsapp.com/");
 	
